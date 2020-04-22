@@ -6,5 +6,8 @@ Feito com Godot e GDScript
 
 ![](./screenshot.png)
 
-Background music from PlayOnLoop.com
-Licensed under Creative Commons by Attribution 4.0
+# Donwloads
+Veja na aba releases ^^
+
+Background music from [PlayOnLoop.com](PlayOnLoop.com)
+Licensed under [Creative Commons by Attribution 4.0](https://creativecommons.org/licenses/by/4.0/)
