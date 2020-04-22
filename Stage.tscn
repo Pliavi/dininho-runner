@@ -1,0 +1,144 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://objects/dininho/Dininho.tscn" type="PackedScene" id=1]
+[ext_resource path="res://objects/ground/Ground.tscn" type="PackedScene" id=2]
+[ext_resource path="res://sprite/sky.png" type="Texture" id=3]
+[ext_resource path="res://sprite/shadow.png" type="Texture" id=4]
+[ext_resource path="res://objects/dininho/Shadow.gd" type="Script" id=5]
+[ext_resource path="res://sprite/light.png" type="Texture" id=6]
+[ext_resource path="res://objects/spawner/Spawner.tscn" type="PackedScene" id=7]
+[ext_resource path="res://fonts/Bungee.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://interface/Score.gd" type="Script" id=9]
+[ext_resource path="res://Stage.gd" type="Script" id=10]
+[ext_resource path="res://sounds/music.wav" type="AudioStream" id=11]
+[ext_resource path="res://shaders/Stage.tres" type="Material" id=12]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 1 )
+colors = PoolColorArray( 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 48
+outline_size = 1
+use_filter = true
+font_data = ExtResource( 8 )
+
+[node name="Game" type="Node2D"]
+show_behind_parent = true
+script = ExtResource( 10 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+
+[node name="Sky" type="Sprite" parent="."]
+position = Vector2( -84.3168, -1.22772 )
+scale = Vector2( 0.886154, 0.886154 )
+texture = ExtResource( 3 )
+centered = false
+
+[node name="Ground" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, 240 )
+
+[node name="Shadow" type="Sprite" parent="."]
+position = Vector2( 98, 448 )
+texture = ExtResource( 4 )
+script = ExtResource( 5 )
+
+[node name="Dininho" parent="." instance=ExtResource( 1 )]
+position = Vector2( 100, 384 )
+
+[node name="Lights" type="Node2D" parent="."]
+visible = false
+
+[node name="Light1" type="Light2D" parent="Lights"]
+position = Vector2( 616, 336 )
+rotation = 0.820305
+scale = Vector2( 3.8619, 10.1985 )
+texture = ExtResource( 6 )
+energy = 0.5
+shadow_enabled = true
+
+[node name="Light2" type="Light2D" parent="Lights"]
+position = Vector2( 832, 384 )
+rotation = 0.488692
+scale = Vector2( 3.8619, 10.1985 )
+texture = ExtResource( 6 )
+energy = 0.5
+shadow_enabled = true
+
+[node name="Light3" type="Light2D" parent="Lights"]
+position = Vector2( 755.383, 336.255 )
+rotation = 0.680678
+scale = Vector2( 6.6825, 10.3728 )
+texture = ExtResource( 6 )
+energy = 0.5
+shadow_enabled = true
+
+[node name="Spawner" parent="." instance=ExtResource( 7 )]
+use_parent_material = true
+position = Vector2( 1080, 400 )
+
+[node name="NightShade" type="TextureRect" parent="."]
+material = ExtResource( 12 )
+margin_right = 1024.0
+margin_bottom = 600.0
+texture = SubResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HighScore" type="Label" parent="."]
+pause_mode = 2
+margin_left = 24.0
+margin_top = 16.0
+margin_right = 275.0
+margin_bottom = 65.0
+grow_horizontal = 0
+rect_pivot_offset = Vector2( 200, 0 )
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0.478431, 0.223529, 0.615686, 1 )
+custom_colors/font_outline_modulate = Color( 0.333333, 0.117647, 0.360784, 1 )
+custom_colors/font_color_shadow = Color( 0.054902, 0.0588235, 0.172549, 1 )
+text = "HI 00000"
+align = 2
+valign = 1
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Score" type="Label" parent="HighScore"]
+margin_left = 795.0
+margin_right = 984.0
+margin_bottom = 49.0
+grow_horizontal = 0
+rect_pivot_offset = Vector2( 200, 0 )
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0.478431, 0.223529, 0.615686, 1 )
+custom_colors/font_outline_modulate = Color( 0.333333, 0.117647, 0.360784, 1 )
+custom_colors/font_color_shadow = Color( 0.054902, 0.0588235, 0.172549, 1 )
+text = "00000"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NightTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[node name="NightTween" type="Tween" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 11 )
+volume_db = -18.0
+pitch_scale = 0.9
+autoplay = true
+[connection signal="timeout" from="NightTimer" to="." method="_on_NightTimer_timeout"]
+[connection signal="timeout" from="NightTimer" to="Dininho" method="_on_NightTimer_timeout"]

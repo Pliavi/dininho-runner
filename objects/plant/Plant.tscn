@@ -1,0 +1,51 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://sprite/head_enemy/frame01.png" type="Texture" id=1]
+[ext_resource path="res://sprite/head_enemy/frame04.png" type="Texture" id=2]
+[ext_resource path="res://sprite/head_enemy/frame03.png" type="Texture" id=3]
+[ext_resource path="res://objects/Enemy.gd" type="Script" id=4]
+[ext_resource path="res://sprite/head_enemy/frame02.png" type="Texture" id=5]
+[ext_resource path="res://sprite/shadow.png" type="Texture" id=6]
+[ext_resource path="res://sprite/object_light.png" type="Texture" id=7]
+[ext_resource path="res://objects/effects/Lightable.gd" type="Script" id=8]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ), ExtResource( 5 ), ExtResource( 3 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 32, 32 )
+
+[node name="Plant" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="lights_in" type="Node2D" parent="."]
+script = ExtResource( 8 )
+
+[node name="flare" type="Light2D" parent="lights_in"]
+position = Vector2( 0, 16 )
+scale = Vector2( 2.5, 2.5 )
+texture = ExtResource( 7 )
+energy = 0.0
+
+[node name="tween" type="Tween" parent="lights_in"]
+
+[node name="shadow" type="Sprite" parent="."]
+position = Vector2( 0, 48 )
+texture = ExtResource( 6 )
+
+[node name="enemy" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+frame = 1
+speed_scale = 1.8
+playing = true
+
+[node name="hitbox" type="Area2D" parent="enemy"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy/hitbox"]
+position = Vector2( 0, 16 )
+shape = SubResource( 2 )

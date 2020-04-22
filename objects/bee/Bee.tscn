@@ -1,0 +1,46 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://sprite/bee_enemy/frame02.png" type="Texture" id=1]
+[ext_resource path="res://sprite/bee_enemy/frame01.png" type="Texture" id=2]
+[ext_resource path="res://objects/Enemy.gd" type="Script" id=3]
+[ext_resource path="res://sprite/object_light.png" type="Texture" id=4]
+[ext_resource path="res://objects/effects/Lightable.gd" type="Script" id=5]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 23.7129
+height = 51.4256
+
+[node name="Bee" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="lights_in" type="Node2D" parent="."]
+script = ExtResource( 5 )
+
+[node name="flare" type="Light2D" parent="lights_in"]
+position = Vector2( 0, 24 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 4 )
+energy = 0.75
+
+[node name="tween" type="Tween" parent="lights_in"]
+
+[node name="enemy" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+frame = 1
+speed_scale = 5.0
+playing = true
+
+[node name="hitbox" type="Area2D" parent="enemy"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy/hitbox"]
+position = Vector2( -8, 8 )
+rotation = 2.09439
+shape = SubResource( 2 )
